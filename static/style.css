@@ -276,3 +276,47 @@ canvas {
     margin-top: 10px;
     color: #f1f5f9;
 }
+/* Corrige tamanho do gráfico */
+#grafico {
+    width: 260px !important;
+    height: 260px !important;
+    max-width: 260px;
+    max-height: 260px;
+}
+
+/* Mantém dashboard organizado */
+.dashboard {
+    display: grid;
+    grid-template-columns: 280px 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+/* Caixa da IA com rolagem */
+.ia-box {
+    max-height: 320px;
+    overflow-y: auto;
+    background: rgba(15, 23, 42, 0.75);
+    padding: 18px;
+    border-radius: 14px;
+}
+
+/* Resposta da IA não estoura a tela */
+#respostaIA {
+    margin-top: 15px;
+    max-height: 210px;
+    overflow-y: auto;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    #grafico {
+        margin: 0 auto;
+    }
+}

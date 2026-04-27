@@ -5,25 +5,23 @@ import os
 from dotenv import load_dotenv
 from google import genai
 
-# =========================
-# 🔥 CARREGAR .ENV PRIMEIRO
-# =========================
-load_dotenv()
+load_dotenv(override=True)
 
-# =========================
-# 🚀 INICIAR APP
-# =========================
+print("CHAVE USADA:", os.getenv("GEMINI_API_KEY")[:12])
+
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+
+#  INICIAR APP
 app = Flask(__name__)
 CORS(app)
 
-# =========================
-# 🔑 GEMINI CLIENT
-# =========================
+
+#  GEMINI CLIENT
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-# =========================
-# 🤖 IA
-# =========================
+
+#  IA
 @app.route("/ia", methods=["POST"])
 def usar_ia():
     data = request.json
@@ -35,15 +33,16 @@ def usar_ia():
             contents=pergunta
         )
 
+        print("RESPOSTA IA:", response.text)  # debug
+
         return jsonify({"resposta": response.text})
 
     except Exception as e:
+        print("ERRO NA IA:", e)
         return jsonify({"erro": str(e)}), 500
 
 
-# =========================
 # 🌐 ROTAS FRONTEND
-# =========================
 @app.route("/")
 def home():
     return render_template("login.html")
@@ -54,18 +53,14 @@ def app_page():
     return render_template("app.html")
 
 
-# =========================
-# 🗄️ BANCO DE DADOS
-# =========================
+#  BANCO DE DADOS
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/financas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 
-# =========================
-# 👤 MODELOS
-# =========================
+#  MODELOS
 class Usuario(db.Model):
     __tablename__ = "usuarios"
 
@@ -84,16 +79,12 @@ class Transacao(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
 
-# =========================
-# 🏗️ CRIAR TABELAS
-# =========================
+#  CRIAR TABELAS
 with app.app_context():
     db.create_all()
 
 
-# =========================
-# 🔐 LOGIN
-# =========================
+# LOGIN
 @app.route("/login", methods=["POST"])
 def login():
     data = request.json
@@ -126,9 +117,7 @@ def registrar():
     return jsonify({"status": "ok"})
 
 
-# =========================
-# 💰 CRUD
-# =========================
+#  CRUD
 @app.route("/dados/<int:user_id>", methods=["GET", "POST"])
 def dados(user_id):
 
@@ -166,9 +155,7 @@ def dados(user_id):
     })
 
 
-# =========================
-# ✏️ UPDATE
-# =========================
+#  UPDATE
 @app.route("/editar/<int:id>", methods=["PUT"])
 def editar(id):
     data = request.json
@@ -185,9 +172,7 @@ def editar(id):
     return jsonify({"status": "ok"})
 
 
-# =========================
-# ❌ DELETE
-# =========================
+#  DELETE
 @app.route("/deletar/<int:id>", methods=["DELETE"])
 def deletar(id):
     t = Transacao.query.get(id)
@@ -201,8 +186,6 @@ def deletar(id):
     return jsonify({"status": "ok"})
 
 
-# =========================
-# 🚀 START
-# =========================
+#  START
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,28 +1,31 @@
 // script.js
 let user_id = localStorage.getItem("user_id");
 
-
-// 🔐 se não estiver logado, volta pro login
 if (!user_id) {
-    window.location.href = "login.html";
+    window.location.href = "/";
 }
+
 let grafico;
 
 window.onload = () => {
-    const ctx = document.getElementById('grafico').getContext('2d');
+    const ctx = document.getElementById("grafico").getContext("2d");
 
     grafico = new Chart(ctx, {
-        type: 'doughnut',
+        type: "doughnut",
         data: {
-            labels: ['Entradas', 'Saídas'],
+            labels: ["Entradas", "Saídas"],
             datasets: [{
                 data: [0, 0],
-                backgroundColor: ['#22c55e', '#ef4444']
+                backgroundColor: ["#22c55e", "#ef4444"]
             }]
+        },
+        options: {
+            responsive: false,
+            maintainAspectRatio: false
         }
     });
 
-    carregarDados(); // 🔥 CARREGA AO ABRIR
+    carregarDados();
 };
 
 async function adicionar() {
@@ -46,7 +49,7 @@ async function adicionar() {
     document.getElementById("descricao").value = "";
     document.getElementById("valor").value = "";
 
-    carregarDados(); // 🔥 ATUALIZA DEPOIS DE ADICIONAR
+    carregarDados();
 }
 
 async function carregarDados() {
@@ -58,14 +61,12 @@ async function carregarDados() {
     const ul = document.getElementById("lista");
     ul.innerHTML = "";
 
-    // Entradas
     data.entradas.forEach(item => {
         const li = document.createElement("li");
         li.innerHTML = `<span style="color: #22c55e">+ R$ ${item.valor}</span> - ${item.descricao}`;
         ul.appendChild(li);
     });
 
-    // Saídas
     data.saidas.forEach(item => {
         const li = document.createElement("li");
         li.innerHTML = `<span style="color: #ef4444">- R$ ${item.valor}</span> - ${item.descricao}`;
@@ -79,8 +80,17 @@ async function carregarDados() {
 
     grafico.update();
 }
+
 async function perguntarIA() {
     const pergunta = document.getElementById("pergunta").value;
+    const respostaIA = document.getElementById("respostaIA");
+
+    if (!pergunta) {
+        respostaIA.innerText = "Digite uma pergunta primeiro.";
+        return;
+    }
+
+    respostaIA.innerText = "Consultando IA...";
 
     const res = await fetch("http://127.0.0.1:5000/ia", {
         method: "POST",
@@ -92,6 +102,9 @@ async function perguntarIA() {
 
     const data = await res.json();
 
-    document.getElementById("respostaIA").innerText = data.resposta;
+    if (data.resposta) {
+        respostaIA.innerText = data.resposta;
+    } else {
+        respostaIA.innerText = "Erro: " + data.erro;
+    }
 }
-
