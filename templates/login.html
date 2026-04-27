@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div id="login">
+    <h2>💰 Controle Financeiro</h2>
+
+    <div class="campo">
+        <input type="text" id="user" placeholder="Usuário">
+    </div>
+
+    <div class="campo">
+        <input type="password" id="pass" placeholder="Senha">
+    </div>
+
+    <button onclick="login()">Entrar</button>
+    <button onclick="registrar()">Registrar</button>
+</div>
+
+
+    <script>
+        async function login() {
+            const username = document.getElementById("user").value;
+            const password = document.getElementById("pass").value;
+
+            const res = await fetch("http://127.0.0.1:5000/login", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ username, password })
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+
+                // 🔥 SALVA O USUÁRIO
+                localStorage.setItem("user_id", data.user_id);
+
+                // 🔄 REDIRECIONA
+                window.location.href = "/app";
+            } else {
+                alert("Login inválido!");
+            }
+        }
+
+        async function registrar() {
+            const username = document.getElementById("user").value;
+            const password = document.getElementById("pass").value;
+
+            await fetch("http://127.0.0.1:5000/registrar", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ username, password })
+            });
+
+            alert("Usuário registrado!");
+        }
+    </script>
+
+</body>
+</html>

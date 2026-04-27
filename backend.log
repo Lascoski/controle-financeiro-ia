@@ -1,0 +1,4 @@
+backend-1  |   File "/app/backend.py", line 80
+backend-1  |     await fetch("http://127.0.0.1:5000/adicionar", {
+backend-1  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+backend-1  | SyntaxError: 'await' outside async function
