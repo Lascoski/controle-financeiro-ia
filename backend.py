@@ -54,7 +54,7 @@ def app_page():
 
 
 #  BANCO DE DADOS
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/financas'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@db:5432/financas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -188,4 +188,4 @@ def deletar(id):
 
 #  START
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
