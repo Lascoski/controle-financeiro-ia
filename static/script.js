@@ -38,7 +38,7 @@ async function adicionar() {
         return;
     }
 
-    await fetch(`http://127.0.0.1:5000/dados/${user_id}`, {
+    await fetch(`/api/dados/${user_id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -53,7 +53,7 @@ async function adicionar() {
 }
 
 async function carregarDados() {
-    const res = await fetch(`http://127.0.0.1:5000/dados/${user_id}`);
+    const res = await fetch(`/api/dados/${user_id}`);
     const data = await res.json();
 
     document.getElementById("saldo").innerText = data.saldo.toFixed(2);
@@ -92,7 +92,7 @@ async function perguntarIA() {
 
     respostaIA.innerText = "Consultando IA...";
 
-    const res = await fetch("http://127.0.0.1:5000/ia", {
+    const res = await fetch("/api/ia", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
