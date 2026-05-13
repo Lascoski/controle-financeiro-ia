@@ -3,46 +3,77 @@ from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import os
 from dotenv import load_dotenv
-from google import genai
+
+# IMPORTS DO LANGCHAIN
+# ChatGoogleGenerativeAI conecta o LangChain ao Gemini
+from langchain_google_genai import ChatGoogleGenerativeAI
+
+# ChatPromptTemplate permite criar um prompt estruturado
+from langchain_core.prompts import ChatPromptTemplate
 
 load_dotenv(override=True)
 
-print("CHAVE USADA:", os.getenv("GEMINI_API_KEY")[:12])
+# Verifica se a chave foi carregada
+api_key = os.getenv("GEMINI_API_KEY")
 
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+if api_key:
+    print("CHAVE USADA:", api_key[:12])
+else:
+    print("ERRO: GEMINI_API_KEY não encontrada no .env")
 
 
-#  INICIAR APP
+# INICIAR APP
 app = Flask(__name__)
 CORS(app)
 
 
-#  GEMINI CLIENT
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# CONFIGURAÇÃO DO LANGCHAIN COM GEMINI
+# Aqui substituímos o uso direto do google.genai.Client
+llm = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=api_key,
+    temperature=0.7
+)
+
+# PROMPT PADRÃO USADO PELA IA
+# O LangChain permite organizar melhor a pergunta enviada para o modelo
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "Você é uma IA assistente de um sistema de controle financeiro. Responda de forma clara, objetiva e útil."),
+    ("human", "{pergunta}")
+])
+
+# CRIA A CHAIN
+# A pergunta passa pelo prompt e depois pelo modelo Gemini
+chain = prompt | llm
 
 
-#  IA
+# IA COM LANGCHAIN
 @app.route("/ia", methods=["POST"])
 def usar_ia():
     data = request.json
     pergunta = data.get("pergunta")
 
+    if not pergunta:
+        return jsonify({"erro": "Pergunta não enviada"}), 400
+
     try:
-        response = client.models.generate_content(
-            model="models/gemini-2.5-flash",
-            contents=pergunta
-        )
+        # ALTERAÇÃO PRINCIPAL:
+        # Antes: client.models.generate_content(...)
+        # Agora: chain.invoke(...) usando LangChain
+        response = chain.invoke({
+            "pergunta": pergunta
+        })
 
-        print("RESPOSTA IA:", response.text)  # debug
+        print("RESPOSTA IA:", response.content)
 
-        return jsonify({"resposta": response.text})
+        return jsonify({"resposta": response.content})
 
     except Exception as e:
         print("ERRO NA IA:", e)
         return jsonify({"erro": str(e)}), 500
 
 
-# 🌐 ROTAS FRONTEND
+# ROTAS FRONTEND
 @app.route("/")
 def home():
     return render_template("login.html")
@@ -53,14 +84,14 @@ def app_page():
     return render_template("app.html")
 
 
-#  BANCO DE DADOS
+# BANCO DE DADOS
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@db:5432/financas'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 
-#  MODELOS
+# MODELOS
 class Usuario(db.Model):
     __tablename__ = "usuarios"
 
@@ -79,7 +110,7 @@ class Transacao(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
 
-#  CRIAR TABELAS
+# CRIAR TABELAS
 with app.app_context():
     db.create_all()
 
@@ -96,6 +127,7 @@ def login():
 
     if user:
         return jsonify({"status": "ok", "user_id": user.id})
+
     return jsonify({"status": "erro"}), 401
 
 
@@ -117,11 +149,10 @@ def registrar():
     return jsonify({"status": "ok"})
 
 
-#  CRUD
+# CRUD
 @app.route("/dados/<int:user_id>", methods=["GET", "POST"])
 def dados(user_id):
 
-    # CREATE
     if request.method == "POST":
         data = request.json
 
@@ -137,7 +168,6 @@ def dados(user_id):
 
         return jsonify({"status": "ok"})
 
-    # READ
     transacoes = Transacao.query.filter_by(usuario_id=user_id).all()
 
     entradas = [t for t in transacoes if t.tipo == "entrada"]
@@ -155,7 +185,7 @@ def dados(user_id):
     })
 
 
-#  UPDATE
+# UPDATE
 @app.route("/editar/<int:id>", methods=["PUT"])
 def editar(id):
     data = request.json
@@ -172,7 +202,7 @@ def editar(id):
     return jsonify({"status": "ok"})
 
 
-#  DELETE
+# DELETE
 @app.route("/deletar/<int:id>", methods=["DELETE"])
 def deletar(id):
     t = Transacao.query.get(id)
@@ -186,6 +216,6 @@ def deletar(id):
     return jsonify({"status": "ok"})
 
 
-#  START
+# START
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
