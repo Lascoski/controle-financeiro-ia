@@ -21,11 +21,9 @@ if api_key:
 else:
     print("ERRO: GEMINI_API_KEY não encontrada no .env")
 
-
 # INICIAR APP
 app = Flask(__name__)
 CORS(app)
-
 
 # CONFIGURAÇÃO DO LANGCHAIN COM GEMINI
 # Aqui substituímos o uso direto do google.genai.Client
