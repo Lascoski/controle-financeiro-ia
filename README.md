@@ -18,3 +18,4 @@ http://localhost
 O backend roda na porta 5000 e é acessado via proxy /api pelo Nginx
 A aplicação foi testada em ambiente com Docker em servidor Linux
 Este projeto foi desenvolvido para fins educacionais.
+Foi adicionada uma segunda opção de IA utilizando outro modelo Gemini. O modelo principal é usado para respostas mais completas, enquanto o modelo rápido é usado para respostas mais curtas e econômicas. Essa separação permite direcionar diferentes solicitações conforme o tipo de resposta desejada.
