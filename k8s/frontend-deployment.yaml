@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: lascoski/projetofinancas-backend:latest
+        image: lascoski/projetofinancas-frontend:latest
         ports:
         - containerPort: 80
         env:
