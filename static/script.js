@@ -38,7 +38,7 @@ async function adicionar() {
         return;
     }
 
-    await fetch(`/dados/${user_id}`, {
+    await fetch(`/api/dados/${user_id}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -57,7 +57,7 @@ async function adicionar() {
 }
 
 async function carregarDados() {
-    const res = await fetch(`/dados/${user_id}`);
+    const res = await fetch(`/api/dados/${user_id}`);
     const data = await res.json();
 
     document.getElementById("saldo").innerText = data.saldo.toFixed(2);
@@ -96,24 +96,15 @@ async function perguntarIA() {
 
     respostaIA.innerText = "Consultando IA...";
 
-    const res = await fetch("/ia", {
+    const res = await fetch("/api/ia", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
             pergunta: pergunta,
-
-            // Modo da IA:
-            // tecnico, resumido, professor, detalhado ou suporte
             modo: "professor",
-
-            // Tipo de prompt:
-            // simples, estruturado ou especializado
             tipo_prompt: "estruturado",
-
-            // Modelo/API:
-            // principal ou rapida
             api_ia: "principal"
         })
     });
