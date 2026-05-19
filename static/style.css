@@ -1,39 +1,40 @@
-/* RESET */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* FUNDO GLOBAL */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
     background:
-        linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.75)),
+        linear-gradient(135deg, rgba(2, 6, 23, .92), rgba(15, 23, 42, .82)),
         url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80");
     background-size: cover;
     background-position: center;
+    color: #f8fafc;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 24px;
 }
 
 /* LOGIN */
 #login {
-    width: 380px;
-    padding: 40px;
-    border-radius: 22px;
+    width: 100%;
+    max-width: 410px;
+    padding: 42px 36px;
+    border-radius: 28px;
     background: rgba(15, 23, 42, 0.82);
-    backdrop-filter: blur(14px);
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
     text-align: center;
-    color: white;
+    animation: subir .5s ease;
 }
 
 #login h2 {
-    font-size: 28px;
+    font-size: 30px;
     margin-bottom: 28px;
 }
 
@@ -41,35 +42,49 @@ body {
     margin-bottom: 16px;
 }
 
-#login input {
+input, select {
     width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.12);
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.12);
+    background: rgba(255,255,255,.10);
     color: white;
     font-size: 15px;
+    transition: .25s;
 }
 
-#login input::placeholder {
+input::placeholder {
     color: #cbd5e1;
 }
 
-#login input:focus {
+input:focus, select:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #22c55e;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34,197,94,.25);
+}
+
+select option {
+    color: #0f172a;
+}
+
+button {
+    border: none;
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: .25s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(0,0,0,.35);
 }
 
 #login button {
     width: 100%;
-    padding: 14px;
     margin-top: 10px;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
 }
 
 #login button:first-of-type {
@@ -77,241 +92,137 @@ body {
 }
 
 #login button:last-of-type {
-    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
 }
 
-#login button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(0,0,0,0.35);
-}
-
-/* APLICAÇÃO */
+/* APP */
 .container {
     width: 100%;
-    max-width: 900px;
-    background: rgba(15, 23, 42, 0.84);
-    backdrop-filter: blur(14px);
-    padding: 30px;
-    border-radius: 22px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.55);
-    color: white;
+    max-width: 1120px;
+    padding: 32px;
+    border-radius: 30px;
+    background: rgba(15, 23, 42, .84);
+    border: 1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+    animation: subir .5s ease;
 }
 
 h1 {
     text-align: center;
-    color: #f8fafc;
-    margin-bottom: 22px;
-    font-size: 32px;
+    font-size: 34px;
+    margin-bottom: 28px;
 }
 
 .form {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 22px;
-}
-
-.form input,
-.form select {
-    flex: 1 1 160px;
-    padding: 13px;
-    border-radius: 12px;
-    border: none;
-    background: rgba(255, 255, 255, 0.12);
-    color: white;
-    font-size: 15px;
-}
-
-.form input::placeholder {
-    color: #cbd5e1;
-}
-
-.form select option {
-    color: #0f172a;
-}
-
-.form input:focus,
-.form select:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px #22c55e;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr auto;
+    gap: 12px;
+    margin-bottom: 24px;
 }
 
 .form button {
-    padding: 13px 18px;
-    border-radius: 12px;
-    border: none;
     background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.form button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(0,0,0,0.35);
 }
 
 .saldo {
+    margin: 20px auto 28px;
+    padding: 22px;
+    max-width: 420px;
     text-align: center;
-    margin: 20px 0;
-    color: #f1f5f9;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(59,130,246,.16));
+    border: 1px solid rgba(255,255,255,.12);
 }
 
 .saldo h2 {
-    font-size: 24px;
+    font-size: 26px;
 }
 
-/* DASHBOARD */
+#saldo {
+    color: #86efac;
+}
+
 .dashboard {
-    display: flex;
+    display: grid;
+    grid-template-columns: 280px 1fr 1fr;
     gap: 22px;
-    align-items: flex-start;
-    margin-top: 20px;
+    align-items: start;
 }
 
-canvas {
-    width: 100% !important;
-    max-width: 280px;
-    height: 280px !important;
-    display: block;
-    margin: 0 auto;
+#grafico {
+    width: 260px !important;
+    height: 260px !important;
+    padding: 16px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.08);
 }
 
-.lista {
-    flex: 1;
-    max-height: 300px;
+.lista, .ia-box {
+    min-height: 320px;
+    max-height: 360px;
     overflow-y: auto;
-    padding-right: 5px;
+    padding: 20px;
+    border-radius: 24px;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.10);
 }
 
-.lista h3 {
-    margin-bottom: 12px;
-    color: #f8fafc;
+.lista h3, .ia-box h3 {
+    margin-bottom: 14px;
+    font-size: 20px;
 }
 
 .lista ul {
     list-style: none;
-    padding: 0;
 }
 
 .lista li {
-    background: rgba(255, 255, 255, 0.10);
     margin-bottom: 10px;
-    padding: 12px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    padding: 13px;
+    border-radius: 14px;
+    background: rgba(15,23,42,.72);
+    border: 1px solid rgba(255,255,255,.08);
 }
 
-.lista button {
-    background: #ef4444;
-    border: none;
-    padding: 7px 10px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
+.ia-box input {
+    margin: 10px 0;
 }
 
-.lista button:hover {
-    background: #dc2626;
+.ia-box button {
+    width: 100%;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+#respostaIA {
+    margin-top: 15px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: #e2e8f0;
+}
+
+/* ANIMAÇÃO */
+@keyframes subir {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* RESPONSIVO */
-@media (max-width: 768px) {
+@media (max-width: 950px) {
     body {
         align-items: flex-start;
     }
 
-    #login {
-        width: 100%;
-        max-width: 380px;
-        margin-top: 40px;
+    .form {
+        grid-template-columns: 1fr;
     }
 
-    .container {
-        padding: 22px;
-    }
-
-    .dashboard {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    canvas {
-        max-width: 230px;
-        height: 230px !important;
-    }
-
-    .lista {
-        width: 100%;
-    }
-}
-.ia-box {
-    margin-top: 20px;
-    background: rgba(15, 23, 42, 0.8);
-    padding: 15px;
-    border-radius: 10px;
-}
-
-.ia-box input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 8px;
-    border: none;
-}
-
-.ia-box button {
-    padding: 10px;
-    background: #3b82f6;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-#respostaIA {
-    margin-top: 10px;
-    color: #f1f5f9;
-}
-/* Corrige tamanho do gráfico */
-#grafico {
-    width: 260px !important;
-    height: 260px !important;
-    max-width: 260px;
-    max-height: 260px;
-}
-
-/* Mantém dashboard organizado */
-.dashboard {
-    display: grid;
-    grid-template-columns: 280px 1fr 1fr;
-    gap: 20px;
-    align-items: start;
-}
-
-/* Caixa da IA com rolagem */
-.ia-box {
-    max-height: 320px;
-    overflow-y: auto;
-    background: rgba(15, 23, 42, 0.75);
-    padding: 18px;
-    border-radius: 14px;
-}
-
-/* Resposta da IA não estoura a tela */
-#respostaIA {
-    margin-top: 15px;
-    max-height: 210px;
-    overflow-y: auto;
-    line-height: 1.5;
-    white-space: pre-wrap;
-}
-
-/* Responsivo */
-@media (max-width: 900px) {
     .dashboard {
         grid-template-columns: 1fr;
     }
