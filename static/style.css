@@ -7,8 +7,11 @@
 body {
     min-height: 100vh;
     font-family: "Segoe UI", Arial, sans-serif;
-    background:
-        linear-gradient(135deg, rgba(2, 6, 23, .92), rgba(15, 23, 42, .82)),
+   background:
+    linear-gradient(135deg, rgba(2, 6, 23, .88), rgba(15, 23, 42, .82)),
+    url("https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80");
+    background-size: cover;
+    background-position: center;
         url("https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1600&q=80");
     background-size: cover;
     background-position: center;
