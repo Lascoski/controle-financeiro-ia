@@ -25,7 +25,7 @@ import os
 
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     "DATABASE_URL",
-    "postgresql://postgres:1234@postgres-service:5432/financas"
+    "postgresql://postgres:1234@postgres:5432/financas"
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -213,12 +213,6 @@ class Transacao(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
 
-
-if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
-
-    app.run(host="0.0.0.0", port=5000, debug=True)
     
 #with app.app_context():
    # db.create_all()
@@ -343,4 +337,7 @@ def deletar(id):
 
 # START
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+
     app.run(host="0.0.0.0", port=5000, debug=True)
