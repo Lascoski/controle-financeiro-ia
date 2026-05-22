@@ -20,7 +20,13 @@ app = Flask(__name__)
 CORS(app)
 
 # BANCO DE DADOS
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@postgres-service:5432/financas'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@postgres-service:5432/financas'
+import os
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
+    "DATABASE_URL",
+    "postgresql://postgres:1234@postgres-service:5432/financas"
+)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -207,8 +213,15 @@ class Transacao(db.Model):
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuarios.id'))
 
 
-with app.app_context():
-    db.create_all()
+
+if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
+
+    app.run(host="0.0.0.0", port=5000, debug=True)
+    
+#with app.app_context():
+   # db.create_all()
 
 
 # LOGIN
@@ -247,11 +260,15 @@ def registrar():
 
 
 # LISTAR E ADICIONAR DADOS
+# LISTAR E ADICIONAR DADOS
 @app.route("/dados/<int:user_id>", methods=["GET", "POST"])
 def dados(user_id):
 
     if request.method == "POST":
         data = request.json
+
+        if not data.get("tipo") or not data.get("valor") or not data.get("descricao"):
+            return jsonify({"erro": "Campos obrigatórios"}), 400
 
         nova = Transacao(
             tipo=data["tipo"],
@@ -292,7 +309,6 @@ def dados(user_id):
         "total_entradas": total_entradas,
         "total_saidas": total_saidas
     })
-
 
 # EDITAR
 @app.route("/editar/<int:id>", methods=["PUT"])
