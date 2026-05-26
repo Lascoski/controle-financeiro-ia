@@ -8,7 +8,7 @@ python-dotenv
 google-genai psycopg2
 https://github.com/Lascoski/controle-financeiro-ia/commit/63a57213b30bd02ee4bea8507c2cded9fe3b5e20
 O banco foi implementado com PostgreSQL, integrado via SQLAlchemy, e o backup está disponível no repositório em formato .sql
-sistema online atravez: http://56.125.192.93/
+sistema online atravez: http://56.126.171.102
 O sistema utiliza a API do Google Gemini para responder perguntas do usuário
 Como rodar o projeto (Docker):
 1. Clone o repositório
