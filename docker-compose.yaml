@@ -1,8 +1,6 @@
 services:
   backend:
-    build:
-      context: ./
-      dockerfile: Dockerfile.backend
+    image: lascoski/projetofinancas-backend:latest
     container_name: gb_one_backend
     ports:
       - "5000:5000"
@@ -12,17 +10,15 @@ services:
     networks:
       - gb_one_network
 
-  frontend: 
-    build:
-      context: ./
-      dockerfile: Dockerfile.frontend
+  frontend:
+    image: lascoski/projetofinancas-frontend:latest
     container_name: gb_one_frontend
     ports:
       - "80:80"
     depends_on:
       - backend
     networks:
-      - gb_one_network  
+      - gb_one_network
 
   db:
     image: postgres:15
