@@ -1,0 +1,185 @@
+[
+  {
+    "v": 12,
+    "name": "testes finanças",
+    "folders": [],
+    "requests": [],
+    "headers": [],
+    "auth": {
+      "authType": "none",
+      "authActive": true
+    },
+    "variables": [],
+    "description": "",
+    "preRequestScript": "",
+    "testScript": ""
+  },
+  {
+    "v": 12,
+    "name": "Controle Financeiro - Testes de API",
+    "folders": [],
+    "requests": [
+      {
+        "v": "17",
+        "name": "01 - Registrar usuário",
+        "method": "POST",
+        "endpoint": "<<base_url>>/registrar",
+        "params": [],
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "active": true,
+            "description": ""
+          }
+        ],
+        "preRequestScript": "",
+        "testScript": "",
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"username\": \"teste_api\",\n  \"password\": \"123456\"\n}"
+        },
+        "requestVariables": [],
+        "responses": {},
+        "description": null
+      },
+      {
+        "v": "17",
+        "name": "02 - Login válido",
+        "method": "POST",
+        "endpoint": "<<base_url>>/login",
+        "params": [],
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "active": true,
+            "description": ""
+          }
+        ],
+        "preRequestScript": "",
+        "testScript": "",
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"username\": \"teste_api\",\n  \"password\": \"123456\"\n}"
+        },
+        "requestVariables": [],
+        "responses": {},
+        "description": null
+      },
+      {
+        "v": "17",
+        "name": "03 - Login inválido",
+        "method": "POST",
+        "endpoint": "<<base_url>>/login",
+        "params": [],
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "active": true,
+            "description": ""
+          }
+        ],
+        "preRequestScript": "",
+        "testScript": "",
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"username\": \"usuario_errado\",\n  \"password\": \"senha_errada\"\n}"
+        },
+        "requestVariables": [],
+        "responses": {},
+        "description": null
+      },
+      {
+        "v": "17",
+        "name": "06 - Listar dados do usuário",
+        "method": "GET",
+        "endpoint": "<<base_url>>/dados/<<user_id>>",
+        "params": [],
+        "headers": [],
+        "preRequestScript": "",
+        "testScript": "",
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "body": {
+          "contentType": null,
+          "body": null
+        },
+        "requestVariables": [],
+        "responses": {},
+        "description": null
+      },
+      {
+        "v": "17",
+        "name": "09 - IA pergunta válida",
+        "method": "POST",
+        "endpoint": "<<base_url>>/ia",
+        "params": [],
+        "headers": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "active": true,
+            "description": ""
+          }
+        ],
+        "preRequestScript": "",
+        "testScript": "",
+        "auth": {
+          "authType": "inherit",
+          "authActive": true
+        },
+        "body": {
+          "contentType": "application/json",
+          "body": "{\n  \"pergunta\": \"Como posso economizar dinheiro?\",\n  \"modo\": \"professor\",\n  \"tipo_prompt\": \"estruturado\",\n  \"api_ia\": \"rapida\"\n}"
+        },
+        "requestVariables": [],
+        "responses": {},
+        "description": null
+      }
+    ],
+    "auth": {
+      "authType": "inherit",
+      "authActive": true
+    },
+    "headers": [],
+    "variables": [
+      {
+        "key": "base_url",
+        "initialValue": "http://localhost:5000",
+        "currentValue": "",
+        "secret": false
+      },
+      {
+        "key": "user_id",
+        "initialValue": "1",
+        "currentValue": "",
+        "secret": false
+      },
+      {
+        "key": "transacao_id",
+        "initialValue": "1",
+        "currentValue": "",
+        "secret": false
+      }
+    ],
+    "description": "Coleção de testes de API para o projeto Controle Financeiro em Flask, PostgreSQL, SQLAlchemy e IA Gemini/LangChain.",
+    "preRequestScript": "",
+    "testScript": ""
+  }
+]
