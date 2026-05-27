@@ -50,7 +50,7 @@
             const username = document.getElementById("user").value;
             const password = document.getElementById("pass").value;
 
-            await fetch("/api/registrar", {
+            await fetch("http://56.126.171.102:5000/registrar", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({ username, password })
