@@ -1,64 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Login</title>
-    <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-<div id="login">
-    <h2>💰 Controle Financeiro</h2>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div id="login">
+      <h2>💰 Controle Financeiro</h2>
 
-    <div class="campo">
-        <input type="text" id="user" placeholder="Usuário">
+      <div class="campo">
+        <input type="text" id="user" placeholder="Usuário" required />
+      </div>
+
+      <div class="campo">
+        <input type="password" id="pass" placeholder="Senha" required />
+      </div>
+
+      <button onclick="login()">Entrar</button>
+      <button onclick="registrar()">Registrar</button>
     </div>
-
-    <div class="campo">
-        <input type="password" id="pass" placeholder="Senha">
-    </div>
-
-    <button onclick="login()">Entrar</button>
-    <button onclick="registrar()">Registrar</button>
-</div>
-
 
     <script>
-        async function login() {
-            const username = document.getElementById("user").value;
-            const password = document.getElementById("pass").value;
+      async function login() {
+        const username = document.getElementById("user").value.trim();
+        const password = document.getElementById("pass").value.trim();
 
-            const res = await fetch("http://56.126.171.102:5000/login", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ username, password })
-            });
-
-            if (res.ok) {
-                const data = await res.json();
-
-                // 🔥 SALVA O USUÁRIO
-                localStorage.setItem("user_id", data.user_id);
-
-                // 🔄 REDIRECIONA
-                window.location.href = "/app.html";
-            } else {
-                alert("Login inválido!");
-            }
+        if (!username || !password) {
+          alert("Usuário e senha são obrigatórios!");
+          return;
         }
 
-        async function registrar() {
-            const username = document.getElementById("user").value;
-            const password = document.getElementById("pass").value;
+        const res = await fetch("http://56.126.171.102:5000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
 
-            await fetch("http://56.126.171.102:5000/registrar", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({ username, password })
-            });
+        if (res.ok) {
+          const data = await res.json();
 
-            alert("Usuário registrado!");
+          localStorage.setItem("user_id", data.user_id);
+
+          window.location.href = "/app.html";
+        } else {
+          alert("Login inválido!");
         }
+      }
+
+      async function registrar() {
+        const username = document.getElementById("user").value;
+        const password = document.getElementById("pass").value;
+
+        await fetch("http://56.126.171.102:5000/registrar", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+
+        alert("Usuário registrado!");
+      }
     </script>
-
-</body>
+  </body>
 </html>
