@@ -13,10 +13,11 @@ spec:
         app: frontend
     spec:
       containers:
-      - name: frontend
-        image: lascoski/projetofinancas-frontend:latest
-        ports:
-        - containerPort: 80
-        env:
-        - name: REACT_APP_API_URL
-          value: "<http://backend-service:5000>" #URL interna do K8s(apenas se SSR) ou /url publica se SPA
+        - name: frontend
+          image: lascoski/projetofinancas-frontend:1.0.4
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+            - name: REACT_APP_API_URL
+              value: "http://backend-service:5000"
