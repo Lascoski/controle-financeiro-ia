@@ -1,6 +1,8 @@
 services:
   backend:
-    image: lascoski/projetofinancas-backend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
     container_name: gb_one_backend
     ports:
       - "5000:5000"
@@ -11,7 +13,9 @@ services:
       - gb_one_network
 
   frontend:
-    image: lascoski/projetofinancas-frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
     container_name: gb_one_frontend
     ports:
       - "80:80"
